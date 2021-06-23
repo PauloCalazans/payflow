@@ -1,4 +1,4 @@
-package com.calazanstec.payflow.payflow
+package com.calazanstec.payflow
 
 import io.flutter.embedding.android.FlutterActivity
 
