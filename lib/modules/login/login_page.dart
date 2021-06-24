@@ -1,12 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:payflow/modules/login/login_controller.dart';
-import 'package:payflow/shared/themes/app_images.dart';
-import 'package:payflow/shared/themes/app_text_styles.dart';
-import 'package:payflow/shared/widgets/social_login/social_login_button.dart';
 
-import '../../shared/themes/app_colors.dart';
+import '../../modules/login/login_controller.dart';
+import '../../../../shared/themes/themes.dart';
+import '../../../../shared/widgets/social_login/social_login_button.dart';
 
 class LoginPage extends StatefulWidget {
 
