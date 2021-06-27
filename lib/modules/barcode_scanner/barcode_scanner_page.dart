@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:payflow/shared/bottom_sheet/bottom_sheet_widget.dart';
-
-import '../../modules/barcode_scanner/barcode_scanner_controller.dart';
-import '../../modules/barcode_scanner/barcode_scanner_status.dart';
+import 'barcode_scanner_controller.dart';
+import 'barcode_scanner_status.dart';
+import '../../../shared/bottom_sheet/bottom_sheet_widget.dart';
 import '../../../shared/themes/themes.dart';
 import '../../../shared/widgets/set_label_buttons/set_label_buttons.dart';
 
@@ -35,7 +34,7 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
 
   @override
   Widget build(BuildContext context) {
-        return SafeArea(
+    return SafeArea(
       child: Stack(
         children: [
           ValueListenableBuilder<BarcodeScannerStatus>(

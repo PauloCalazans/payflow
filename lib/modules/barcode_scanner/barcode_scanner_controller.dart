@@ -3,29 +3,27 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../modules/barcode_scanner/barcode_scanner_status.dart';
+import 'barcode_scanner_status.dart';
 
 class BarcodeScannerController {
   final statusNotifier = ValueNotifier<BarcodeScannerStatus>(BarcodeScannerStatus());
   BarcodeScannerStatus get status => statusNotifier.value;
   set status(BarcodeScannerStatus status) => statusNotifier.value = status;
 
-  final barcodeScanner = GoogleMlKit.vision.barcodeScanner();
+  var barcodeScanner = GoogleMlKit.vision.barcodeScanner();
   CameraController? cameraController;
 
   InputImage? imagePicker;
-  
+
   void getAvailableCameras() async {
     try {
       final response = await availableCameras();
-      final camera = response.firstWhere((it) => it.lensDirection == CameraLensDirection.back);
-
+      final camera = response.firstWhere((item) => item.lensDirection == CameraLensDirection.back);
       cameraController = CameraController(camera, ResolutionPreset.max, enableAudio: false);
       await cameraController!.initialize();
       scanWithCamera();
       listenCamera();
-    } catch(e) {
+    } catch (e) {
       status = BarcodeScannerStatus.error(e.toString());
     }
   }
@@ -51,9 +49,6 @@ class BarcodeScannerController {
   }
 
   void scanWithImagePicker() async {
-    if(cameraController != null)
-      await cameraController!.stopImageStream();
-
     final response = await ImagePicker().getImage(source: ImageSource.gallery);
     final inputImage = InputImage.fromFilePath(response!.path);
     scannerBarCode(inputImage);
@@ -62,15 +57,15 @@ class BarcodeScannerController {
   void scanWithCamera() {
     status = BarcodeScannerStatus.available();
     Future.delayed(Duration(seconds: 20)).then((value) {
-      if(!status.hasBarcode)
-        status = BarcodeScannerStatus.error("Timeout na leitura do boleto");
+      if (status.hasBarcode == false)
+        status = BarcodeScannerStatus.error("Timeout de leitura de boleto");
     });
   }
 
   void listenCamera() {
     if (cameraController!.value.isStreamingImages == false)
       cameraController!.startImageStream((cameraImage) async {
-        if(!status.stopScanner) {
+        if (status.stopScanner == false) {
           try {
             final WriteBuffer allBytes = WriteBuffer();
             for (Plane plane in cameraImage.planes) {
